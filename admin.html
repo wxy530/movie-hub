@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理后台 - MovieHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .admin-container {
+      margin-top: 70px;
+      padding: 40px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .admin-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px; flex-wrap: wrap; gap: 16px;
+    }
+    .admin-title { font-size: 32px; font-weight: 800; }
+    .admin-actions { display: flex; gap: 12px; }
+    .btn {
+      padding: 10px 24px; border-radius: 12px; font-size: 14px;
+      font-weight: 600; cursor: pointer; border: none; transition: all 0.3s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-primary { background: var(--gradient-primary); color: white; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(108,99,255,0.4); }
+    .btn-secondary { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-color); }
+    .btn-secondary:hover { border-color: var(--primary); }
+    .btn-danger { background: rgba(255,107,107,0.15); color: var(--secondary); border: 1px solid rgba(255,107,107,0.3); }
+    .btn-danger:hover { background: rgba(255,107,107,0.25); }
+    .btn-success { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; }
+
+    .tabs { display: flex; gap: 8px; margin-bottom: 32px; }
+    .tab {
+      padding: 10px 24px; border-radius: 12px; font-size: 14px; font-weight: 600;
+      cursor: pointer; background: var(--bg-card); color: var(--text-secondary);
+      border: 1px solid var(--border-color); transition: all 0.3s;
+    }
+    .tab.active { background: var(--primary); border-color: var(--primary); color: white; }
+    .tab:hover:not(.active) { border-color: var(--primary); color: var(--text-primary); }
+
+    .form-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-label {
+      font-size: 13px; font-weight: 600; color: var(--text-secondary);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .form-input, .form-textarea, .form-select {
+      background: var(--bg-dark); border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm); padding: 10px 14px;
+      color: var(--text-primary); font-size: 14px; outline: none;
+      transition: border-color 0.3s; font-family: inherit;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(108,99,255,0.1);
+    }
+    .form-textarea { resize: vertical; min-height: 80px; }
+    .form-hint { font-size: 12px; color: var(--text-muted); }
+
+    .movie-list { display: flex; flex-direction: column; gap: 12px; }
+    .movie-list-item {
+      background: var(--bg-card); border: 1px solid var(--border-color);
+      border-radius: var(--radius-md); padding: 16px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.3s;
+    }
+    .movie-list-item:hover { border-color: var(--primary); }
+    .movie-list-info { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; }
+    .movie-list-poster {
+      width: 48px; height: 48px; border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; flex-shrink: 0;
+    }
+    .movie-list-detail { min-width: 0; }
+    .movie-list-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+    .movie-list-meta { font-size: 13px; color: var(--text-muted); display: flex; gap: 8px; align-items: center; }
+    .movie-list-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .icon-btn {
+      width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border-color);
+      background: var(--bg-dark); color: var(--text-secondary); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+      transition: all 0.3s;
+    }
+    .icon-btn:hover { border-color: var(--primary); color: var(--text-primary); }
+    .icon-btn.delete:hover { border-color: var(--secondary); color: var(--secondary); }
+
+    .export-code {
+      background: var(--bg-dark); border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm); padding: 20px; font-family: monospace;
+      font-size: 13px; color: var(--text-secondary); white-space: pre-wrap;
+      max-height: 400px; overflow-y: auto; margin-top: 12px;
+    }
+    .empty-state-admin {
+      text-align: center; padding: 60px 20px;
+      color: var(--text-muted);
+    }
+    .badge-local { background: rgba(56,239,125,0.15); color: #38ef7d; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
+
+    .toast {
+      position: fixed; bottom: 40px; right: 40px; z-index: 9999;
+      background: var(--bg-card); border: 1px solid var(--primary);
+      border-radius: var(--radius-md); padding: 16px 24px;
+      color: var(--text-primary); font-size: 14px;
+      box-shadow: var(--shadow-lg); animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .movie-list-item { flex-direction: column; gap: 12px; align-items: flex-start; }
+      .movie-list-actions { align-self: flex-end; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="logo">🎬</span>
+      <span>MovieHub</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="browse.html">浏览</a></li>
+      <li><a href="admin.html" class="active">管理后台</a></li>
+    </ul>
+  </nav>
+
+  <div class="admin-container">
+    <div class="admin-header">
+      <div>
+        <h1 class="admin-title">⚙️ 管理后台</h1>
+        <p style="color: var(--text-muted); margin-top: 4px;">添加、编辑和管理影视资源</p>
+      </div>
+      <div class="admin-actions">
+        <button class="btn btn-success" onclick="exportToCode()">📋 导出代码</button>
+        <button class="btn btn-danger" onclick="clearAllLocal()">🗑️ 清空本地</button>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <div class="tab active" onclick="switchTab('add')">➕ 添加资源</div>
+      <div class="tab" onclick="switchTab('list')">📋 管理列表</div>
+      <div class="tab" onclick="switchTab('export')">📤 导出合并</div>
+    </div>
+
+    <!-- Tab 1: 添加表单 -->
+    <div id="tab-add" class="tab-content">
+      <div class="form-panel">
+        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">➕ 添加新影视资源</h3>
+        <form id="addForm" onsubmit="handleAdd(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">📌 中文标题 <span style="color:var(--secondary)">*</span></label>
+              <input class="form-input" id="fTitle" placeholder="例：星际穿越" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">🔤 英文标题</label>
+              <input class="form-input" id="fTitleEn" placeholder="例：Interstellar">
+            </div>
+            <div class="form-group">
+              <label class="form-label">📂 类型 <span style="color:var(--secondary)">*</span></label>
+              <select class="form-select" id="fType" required>
+                <option value="movie">电影</option>
+                <option value="tv">电视剧</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">📅 年份 <span style="color:var(--secondary)">*</span></label>
+              <input class="form-input" id="fYear" type="number" placeholder="例：2024" min="1900" max="2030" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">⭐ 评分（1-10）</label>
+              <input class="form-input" id="fRating" type="number" placeholder="例：8.5" min="0" max="10" step="0.1">
+            </div>
+            <div class="form-group">
+              <label class="form-label">⏱️ 时长/集数</label>
+              <input class="form-input" id="fDuration" placeholder="电影：150分钟；剧集：40分钟/集">
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label">🎯 分类（多选，至少选1个） <span style="color:var(--secondary)">*</span></label>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px;" id="genreCheckboxes">
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="科幻"> 科幻
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="悬疑"> 悬疑
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="剧情"> 剧情
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="动画"> 动画
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="喜剧"> 喜剧
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="动作"> 动作
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="犯罪"> 犯罪
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="冒险"> 冒险
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="治愈"> 治愈
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="历史"> 历史
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="励志"> 励志
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="奇幻"> 奇幻
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="音乐"> 音乐
+                </label>
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer;">
+                  <input type="checkbox" value="运动"> 运动
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">🎬 导演</label>
+              <input class="form-input" id="fDirector" placeholder="例：诺兰">
+            </div>
+            <div class="form-group">
+              <label class="form-label">👥 演员（逗号分隔）</label>
+              <input class="form-input" id="fCast" placeholder="例：演员A, 演员B, 演员C">
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label">🎨 海报风格</label>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;" id="bgPresets">
+                <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,#667eea,#764ba2);cursor:pointer;border:2px solid transparent" onclick="selectBg(this,'🚀','linear-gradient(135deg,#667eea,#764ba2)')"></div>
+                <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,#f093fb,#f5576c);cursor:pointer;border:2px solid transparent" onclick="selectBg(this,'🎭','linear-gradient(135deg,#f093fb,#f5576c)')"></div>
+                <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,#4facfe,#00f2fe);cursor:pointer;border:2px solid transparent" onclick="selectBg(this,'🌊','linear-gradient(135deg,#4facfe,#00f2fe)')"></div>
+                <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,#434343,#000);cursor:pointer;border:2px solid transparent" onclick="selectBg(this,'🔫','linear-gradient(135deg,#434343,#000)')"></div>
+                <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,#0c3483,#a2b6df);cursor:pointer;border:2px solid transparent" onclick="selectBg(this,'🌌','linear-gradient(135deg,#0c3483,#a2b6df)')"></div>
+                <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,#f5af19,#f12711);cursor:pointer;border:2px solid transparent" onclick="selectBg(this,'🔥','linear-gradient(135deg,#f5af19,#f12711)')"></div>
+                <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,#ee0979,#ff6a00);cursor:pointer;border:2px solid transparent" onclick="selectBg(this,'🏀','linear-gradient(135deg,#ee0979,#ff6a00)')"></div>
+                <div style="width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,#11998e,#38ef7d);cursor:pointer;border:2px solid transparent" onclick="selectBg(this,'🎬','linear-gradient(135deg,#11998e,#38ef7d)')"></div>
+              </div>
+              <span class="form-hint">点击色块选择海报风格，用于卡片展示</span>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">📖 剧情简介</label>
+              <textarea class="form-textarea" id="fSummary" placeholder="简要介绍剧情内容..." rows="2"></textarea>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">🤖 AI深度摘要</label>
+              <textarea class="form-textarea" id="fAiSummary" placeholder="AI生成的深度分析摘要，包含制作背景、表演评价、主题探讨等..." rows="3"></textarea>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">🏷️ AI标签（逗号分隔）</label>
+              <input class="form-input" id="fTags" placeholder="例：国产精品, 视觉盛宴, 演技炸裂">
+            </div>
+            <div class="form-group" id="episodeGroup" style="display:none;">
+              <label class="form-label">📺 集数</label>
+              <input class="form-input" id="fEpisodes" type="number" placeholder="例：40">
+            </div>
+            <div class="form-group">
+              <label class="form-label">📊 状态</label>
+              <select class="form-select" id="fStatus">
+                <option value="已完结">已完结</option>
+                <option value="更新中">更新中</option>
+                <option value="待上线">待上线</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top: 24px; display: flex; gap: 12px;">
+            <button type="submit" class="btn btn-primary" id="submitBtn">💾 保存资源</button>
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">🔄 重置表单</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Tab 2: 管理列表 -->
+    <div id="tab-list" class="tab-content" style="display: none;">
+      <div class="form-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h3 style="font-size: 20px; font-weight: 700;">📋 本地影视资源</h3>
+          <span class="form-hint" id="listCount">共 0 部</span>
+        </div>
+        <div class="movie-list" id="movieList">
+          <div class="empty-state-admin">
+            <div style="font-size: 48px;">📭</div>
+            <p>还没有添加任何本地影视资源</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 3: 导出 -->
+    <div id="tab-export" class="tab-content" style="display: none;">
+      <div class="form-panel">
+        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">📤 导出数据</h3>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">
+          将本地添加的影视资源导出为 JavaScript 代码，复制后粘贴到 <code style="background:var(--bg-dark);padding:2px 8px;border-radius:4px;">js/data.js</code> 文件的数组中，重新部署后所有用户可见。
+        </p>
+        <div class="export-code" id="exportCode">
+          点击"导出代码"按钮生成...
+        </div>
+        <div style="margin-top: 16px; display: flex; gap: 12px;">
+          <button class="btn btn-primary" onclick="copyExport()">📋 复制代码</button>
+          <button class="btn btn-secondary" onclick="exportToCode()">🔄 重新生成</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script>
+    // 本地存储键名
+    const STORAGE_KEY = 'moviehub_custom_data';
+
+    // 当前选中的海报风格
+    let selectedPoster = '🎬';
+    let selectedBg = 'linear-gradient(135deg, #11998e, #38ef7d)';
+
+    // 获取本地数据
+    function getLocalData() {
+      try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        return data ? JSON.parse(data) : [];
+      } catch(e) {
+        return [];
+      }
+    }
+
+    // 保存本地数据
+    function saveLocalData(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // 生成唯一ID
+    function generateId() {
+      const local = getLocalData();
+      const maxLocal = local.length > 0 ? Math.max(...local.map(m => m.id)) : 1000;
+      const maxBuiltin = Math.max(...movieDatabase.map(m => m.id));
+      return Math.max(maxLocal, maxBuiltin) + 1;
+    }
+
+    // 选择海报风格
+    function selectBg(el, emoji, bg) {
+      selectedPoster = emoji;
+      selectedBg = bg;
+      document.querySelectorAll('#bgPresets > div').forEach(d => d.style.borderColor = 'transparent');
+      el.style.borderColor = 'var(--primary)';
+    }
+
+    // 切换Tab
+    function switchTab(name) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+      document.querySelector('.tab[onclick*="' + name + '"]').classList.add('active');
+      document.getElementById('tab-' + name).style.display = 'block';
+
+      if (name === 'list') renderMovieList();
+      if (name === 'export') exportToCode();
+    }
+
+    // 类型切换时显示/隐藏集数
+    document.addEventListener('DOMContentLoaded', () => {
+      const typeSelect = document.getElementById('fType');
+      const episodeGroup = document.getElementById('episodeGroup');
+      if (typeSelect && episodeGroup) {
+        typeSelect.addEventListener('change', () => {
+          episodeGroup.style.display = typeSelect.value === 'tv' ? 'flex' : 'none';
+        });
+      }
+    });
+
+    // 处理添加
+    function handleAdd(e) {
+      e.preventDefault();
+
+      const genres = Array.from(document.querySelectorAll('#genreCheckboxes input:checked')).map(cb => cb.value);
+      if (genres.length === 0) {
+        showToast('请至少选择一个分类', 'error');
+        return;
+      }
+
+      const type = document.getElementById('fType').value;
+      const movie = {
+        id: generateId(),
+        title: document.getElementById('fTitle').value.trim(),
+        titleEn: document.getElementById('fTitleEn').value.trim() || document.getElementById('fTitle').value.trim(),
+        type: type,
+        year: parseInt(document.getElementById('fYear').value),
+        genres: genres,
+        rating: parseFloat(document.getElementById('fRating').value) || 7.0,
+        duration: document.getElementById('fDuration').value.trim() || (type === 'movie' ? '120分钟' : '45分钟/集'),
+        director: document.getElementById('fDirector').value.trim() || '未知',
+        cast: document.getElementById('fCast').value.split(',').map(s => s.trim()).filter(Boolean),
+        poster: selectedPoster,
+        backdrop: selectedBg,
+        posterBg: selectedBg,
+        summary: document.getElementById('fSummary').value.trim() || '暂无简介',
+        aiSummary: document.getElementById('fAiSummary').value.trim() || '暂无AI摘要',
+        tags: document.getElementById('fTags').value.split(',').map(s => s.trim()).filter(Boolean),
+        episodes: type === 'tv' ? (parseInt(document.getElementById('fEpisodes').value) || null) : null,
+        status: document.getElementById('fStatus').value
+      };
+
+      const localData = getLocalData();
+      localData.push(movie);
+      saveLocalData(localData);
+
+      showToast(`✅《${movie.title}》添加成功！已存到本地`, 'success');
+      resetForm();
+    }
+
+    // 重置表单
+    function resetForm() {
+      document.getElementById('addForm').reset();
+      selectedPoster = '🎬';
+      selectedBg = 'linear-gradient(135deg, #11998e, #38ef7d)';
+      document.querySelectorAll('#bgPresets > div').forEach(d => d.style.borderColor = 'transparent');
+      document.getElementById('episodeGroup').style.display = 'none';
+    }
+
+    // 渲染管理列表
+    function renderMovieList() {
+      const localData = getLocalData();
+      const listEl = document.getElementById('movieList');
+      document.getElementById('listCount').textContent = `共 ${localData.length} 部`;
+
+      if (localData.length === 0) {
+        listEl.innerHTML = '<div class="empty-state-admin"><div style="font-size:48px;">📭</div><p>还没有添加任何本地影视资源</p></div>';
+        return;
+      }
+
+      listEl.innerHTML = localData.map(m => `
+        <div class="movie-list-item">
+          <div class="movie-list-info">
+            <div class="movie-list-poster" style="background:${m.posterBg};">${m.poster}</div>
+            <div class="movie-list-detail">
+              <div class="movie-list-title">${m.title} <span class="badge-local">本地</span></div>
+              <div class="movie-list-meta">
+                <span>${m.type === 'movie' ? '电影' : '剧集'}</span>
+                <span>·</span>
+                <span>${m.year}</span>
+                <span>·</span>
+                <span>${m.genres.join('/')}</span>
+                <span>·</span>
+                <span>⭐${m.rating}</span>
+              </div>
+            </div>
+          </div>
+          <div class="movie-list-actions">
+            <button class="icon-btn delete" onclick="deleteMovie(${m.id})" title="删除">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 删除影片
+    function deleteMovie(id) {
+      if (!confirm('确定要删除这部影视资源吗？')) return;
+      let localData = getLocalData();
+      localData = localData.filter(m => m.id !== id);
+      saveLocalData(localData);
+      renderMovieList();
+      showToast('已删除', 'success');
+    }
+
+    // 清空所有本地数据
+    function clearAllLocal() {
+      if (!confirm('确定要清空所有本地添加的影视资源吗？此操作不可恢复！')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      renderMovieList();
+      showToast('已清空所有本地数据', 'success');
+    }
+
+    // 导出为代码
+    function exportToCode() {
+      const localData = getLocalData();
+      const codeEl = document.getElementById('exportCode');
+
+      if (localData.length === 0) {
+        codeEl.textContent = '// 暂无本地数据可导出';
+        return;
+      }
+
+      const codeLines = ['// 从管理后台导出的影视数据\n'];
+      localData.forEach((m, i) => {
+        const obj = JSON.stringify(m, null, 2)
+          .replace(/"([^"]+)":/g, '$1:')
+          .replace(/: "([^"]*)"/g, ": '$1'")
+          .replace(/:\s*\[([^\]]*)\]/g, (match) => {
+            return match.replace(/'/g, '"');
+          })
+          .replace(/\n/g, '\n  ');
+        codeLines.push(`  ${JSON.stringify(m, null, 2)},`);
+      });
+
+      // 用更好的格式输出
+      const formatted = '[\n' + localData.map(m => {
+        const castStr = m.cast && m.cast.length > 0
+          ? '[' + m.cast.map(c => `"${c}"`).join(', ') + ']'
+          : '[]';
+        const tagsStr = m.tags && m.tags.length > 0
+          ? '[' + m.tags.map(t => `"${t}"`).join(', ') + ']'
+          : '[]';
+        const genresStr = '[' + m.genres.map(g => `"${g}"`).join(', ') + ']';
+        const titleEn = m.titleEn || m.title;
+
+        return `  {
+    id: ${m.id},
+    title: "${m.title}",
+    titleEn: "${titleEn}",
+    type: "${m.type}",
+    year: ${m.year},
+    genres: ${genresStr},
+    rating: ${m.rating},
+    duration: "${m.duration}",
+    director: "${m.director}",
+    cast: ${castStr},
+    poster: "${m.poster}",
+    backdrop: "${m.backdrop}",
+    posterBg: "${m.posterBg}",
+    summary: "${m.summary.replace(/"/g, '\\"')}",
+    aiSummary: "${m.aiSummary.replace(/"/g, '\\"')}",
+    tags: ${tagsStr},
+    episodes: ${m.episodes || 'null'},
+    status: "${m.status}"
+  }`;
+      }).join(',\n') + '\n]';
+
+      codeEl.textContent = formatted;
+    }
+
+    // 复制导出代码
+    function copyExport() {
+      const code = document.getElementById('exportCode').textContent;
+      if (!code || code.includes('暂无')) return;
+      navigator.clipboard.writeText(code).then(() => {
+        showToast('📋 已复制到剪贴板！粘贴到 data.js 中即可', 'success');
+      }).catch(() => {
+        // fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = code;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast('📋 已复制到剪贴板！', 'success');
+      });
+    }
+
+    // Toast提示
+    function showToast(message) {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+  </script>
+</body>
+</html>
