@@ -549,3 +549,24 @@ function getLatest(limit = 10) {
     .sort((a, b) => b.year - a.year)
     .slice(0, limit);
 }
+
+// ========== 自动合并本地自定义数据到 movieDatabase ==========
+// 这样所有直接使用 movieDatabase 的代码也能看到本地添加的内容
+(function mergeLocalDataToDatabase() {
+  try {
+    const localMovies = getLocalMovies();
+    localMovies.forEach(m => {
+      if (!movieDatabase.find(item => item.id === m.id)) {
+        movieDatabase.push(m);
+      }
+    });
+    console.log('[MovieHub] 已合并本地数据，共', localMovies.length, '部');
+  } catch(e) {
+    console.warn('[MovieHub] 合并本地数据失败:', e.message);
+  }
+})();
+
+// 重新定义 getAllMovies，直接返回已合并的 movieDatabase
+function getAllMovies() {
+  return movieDatabase;
+}
