@@ -133,9 +133,9 @@
             <div class="detail-poster" id="detailPoster" style="background: ${movie.posterBg};">
               <span style="font-size: 120px;">${movie.poster}</span>
             </div>
-            <div class="detail-video" id="detailVideo" style="display:none; background: #000; border-radius: 12px; overflow: hidden; width: 300px; height: 450px; position: relative;">
+            <div class="detail-video" id="detailVideo" style="display:none; background: #000; border-radius: 12px; overflow: hidden; width: 100%; max-width: 560px; aspect-ratio: 16/9; position: relative;">
               <video id="videoPlayer" controls style="width: 100%; height: 100%; object-fit: contain;"></video>
-              <iframe id="videoIframe" allowfullscreen style="width: 100%; height: 100%; border: none; display: none;"></iframe>
+              <iframe id="videoIframe" allowfullscreen allow="autoplay" style="width: 100%; height: 100%; border: none; display: none;"></iframe>
             </div>
             <div class="detail-info">
               <div class="detail-title">${movie.title}</div>
@@ -205,12 +205,25 @@
         document.getElementById('detailVideo').style.display = 'block';
         const videoPlayer = document.getElementById('videoPlayer');
         const videoIframe = document.getElementById('videoIframe');
-        if (movie.videoType === 'iframe' || movie.videoUrl.includes('bilibili') || movie.videoUrl.includes('embed')) {
-          videoIframe.src = movie.videoUrl;
+
+        // 提取真实的视频URL（用户可能粘贴了完整的iframe标签）
+        let realUrl = movie.videoUrl;
+        if (movie.videoUrl.includes('<iframe')) {
+          // 从 iframe 标签中提取 src 属性
+          const srcMatch = movie.videoUrl.match(/src=["']([^"']+)["']/);
+          if (srcMatch) {
+            realUrl = srcMatch[1];
+          }
+        }
+
+        console.log('[MovieHub] 播放URL:', realUrl);
+
+        if (movie.videoType === 'iframe' || movie.videoUrl.includes('bilibili') || movie.videoUrl.includes('embed') || realUrl.includes('bilibili') || realUrl.includes('embed')) {
+          videoIframe.src = realUrl;
           videoIframe.style.display = 'block';
           videoPlayer.style.display = 'none';
         } else {
-          videoPlayer.src = movie.videoUrl;
+          videoPlayer.src = realUrl;
           videoPlayer.style.display = 'block';
           videoIframe.style.display = 'none';
         }
