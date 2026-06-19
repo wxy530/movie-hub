@@ -437,6 +437,28 @@ const movieDatabase = [
     tags: ["文学改编", "东北叙事", "时代挽歌", "电影质感", "文艺悬疑"],
     episodes: 8,
     status: "已完结"
+  },
+  {
+    id: 999,
+    title: "左航 有何不可积月禁往的",
+    titleEn: "左航 有何不可积月禁往的",
+    type: "movie",
+    year: 2026,
+    genres: ["音乐"],
+    rating: 7.0,
+    duration: "120分钟",
+    director: "积月禁往 / 左航",
+    cast: ["左航"],
+    poster: "🎬",
+    backdrop: "linear-gradient(135deg, #4afce, #f002fe)",
+    posterBg: "linear-gradient(135deg, #4afce, #f002fe)",
+    summary: "【左航】将进蓝色棉花糖里！｜有何不叮｜曲度超标预警！这是人类可以拥有的动物吗？",
+    aiSummary: "左航的音乐作品，充满青春活力与独特魅力。",
+    tags: ["TOP登临少年", "音乐", "左航"],
+    episodes: null,
+    status: "已完结",
+    videoUrl: "//player.bilibili.com/player.html?autoplay=0",
+    videoType: "iframe"
   }
 ];
 
