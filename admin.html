@@ -397,19 +397,26 @@
     function handleAdd(e) {
       e.preventDefault();
 
+      const title = document.getElementById('fTitle').value.trim();
+      if (!title) {
+        showToast('请填写影视标题！', 'error');
+        document.getElementById('fTitle').focus();
+        return;
+      }
+
       const genres = Array.from(document.querySelectorAll('#genreCheckboxes input:checked')).map(cb => cb.value);
       if (genres.length === 0) {
-        showToast('请至少选择一个分类', 'error');
+        showToast('请至少选择一个分类（勾选下面的类型标签）', 'error');
         return;
       }
 
       const type = document.getElementById('fType').value;
       const movie = {
         id: generateId(),
-        title: document.getElementById('fTitle').value.trim(),
-        titleEn: document.getElementById('fTitleEn').value.trim() || document.getElementById('fTitle').value.trim(),
+        title: title,
+        titleEn: document.getElementById('fTitleEn').value.trim() || title,
         type: type,
-        year: parseInt(document.getElementById('fYear').value),
+        year: parseInt(document.getElementById('fYear').value) || 2024,
         genres: genres,
         rating: parseFloat(document.getElementById('fRating').value) || 7.0,
         duration: document.getElementById('fDuration').value.trim() || (type === 'movie' ? '120分钟' : '45分钟/集'),
@@ -427,12 +434,17 @@
         videoType: document.getElementById('fVideoUrl').value.includes('bilibili') || document.getElementById('fVideoUrl').value.includes('embed') ? 'iframe' : 'url'
       };
 
-      const localData = getLocalData();
-      localData.push(movie);
-      saveLocalData(localData);
-
-      showToast(`✅《${movie.title}》添加成功！已存到本地`, 'success');
-      resetForm();
+      try {
+        const localData = getLocalData();
+        localData.push(movie);
+        saveLocalData(localData);
+        showToast(`✅《${movie.title}》添加成功！已存到本地（共${localData.length}部）`, 'success');
+        resetForm();
+        console.log('[MovieHub] 保存成功:', movie.title, '当前本地数据量:', localData.length);
+      } catch(err) {
+        showToast('保存失败：' + err.message, 'error');
+        console.error('[MovieHub] 保存失败:', err);
+      }
     }
 
     // 重置表单
