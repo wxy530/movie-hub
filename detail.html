@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>影视详情 - MovieHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="🎬">
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="logo">🎬</span>
+      <span>MovieHub</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="browse.html">浏览</a></li>
+      <li><a href="browse.html?type=movie">电影</a></li>
+      <li><a href="browse.html?type=tv">电视剧</a></li>
+      <li><a href="admin.html">⚙️ 管理</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="搜索影视、演员、导演...">
+      </div>
+    </div>
+  </nav>
+
+  <!-- 详情页面 -->
+  <div class="detail-page" id="detailPage">
+    <!-- 加载中 -->
+    <div class="loading" id="loading">
+      <div class="loading-spinner"></div>
+    </div>
+  </div>
+
+  <!-- 推荐区域 -->
+  <div class="recommendations-section" id="recommendationsSection" style="display: none;">
+    <div class="section-header">
+      <h2 class="section-title">
+        <span class="icon">🎯</span>
+        AI为你推荐
+      </h2>
+    </div>
+    <div class="movie-grid" id="recommendationsGrid"></div>
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <div class="footer-brand">🎬 MovieHub</div>
+        <p class="footer-desc">
+          MovieHub 是一个智能化的影视资源分发平台，致力于为用户提供优质的影视内容与个性化的推荐服务。
+        </p>
+      </div>
+      <div>
+        <h4 class="footer-title">快速导航</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">首页</a></li>
+          <li><a href="browse.html">浏览全部</a></li>
+          <li><a href="browse.html?type=movie">电影频道</a></li>
+          <li><a href="browse.html?type=tv">电视剧频道</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-title">热门分类</h4>
+        <ul class="footer-links">
+          <li><a href="browse.html?genre=科幻">科幻影视</a></li>
+          <li><a href="browse.html?genre=悬疑">悬疑推理</a></li>
+          <li><a href="browse.html?genre=动画">动画佳作</a></li>
+          <li><a href="browse.html?genre=剧情">剧情精选</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-title">特色功能</h4>
+        <ul class="footer-links">
+          <li><a href="#">AI智能推荐</a></li>
+          <li><a href="#">自动分类系统</a></li>
+          <li><a href="#">内容摘要生成</a></li>
+          <li><a href="#">个性化收藏</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2023 MovieHub. All rights reserved.</span>
+      <span>智能影视 · 用心推荐</span>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script>
+    // 详情页面逻辑
+    function renderDetailPage() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+
+      if (!id) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      const movie = getMovieById(parseInt(id));
+
+      if (!movie) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('detailPage').innerHTML = `
+          <div style="text-align: center; padding: 120px 20px; margin-top: 70px;">
+            <div style="font-size: 64px; margin-bottom: 16px;">😢</div>
+            <h2 style="font-size: 24px; margin-bottom: 12px;">未找到该影视资源</h2>
+            <p style="color: var(--text-muted);">
+              <a href="index.html" style="color: var(--primary);">返回首页</a>
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      // 更新页面标题
+      document.title = `${movie.title} - MovieHub`;
+
+      // 渲染详情
+      const typeLabel = movie.type === 'movie' ? '电影' : '电视剧';
+      const episodeInfo = movie.type === 'tv' ? `${movie.episodes}集 · ${movie.duration}` : movie.duration;
+      const statusBadge = movie.type === 'tv' ? `<span class="badge badge-secondary">${movie.status}</span>` : '';
+
+      const detailHTML = `
+        <div class="detail-hero" style="background: ${movie.backdrop};">
+          <div class="detail-hero-content">
+            <div class="detail-poster" id="detailPoster" style="background: ${movie.posterBg};">
+              <span style="font-size: 120px;">${movie.poster}</span>
+            </div>
+            <div class="detail-video" id="detailVideo" style="display:none; background: #000; border-radius: 12px; overflow: hidden; width: 300px; height: 450px; position: relative;">
+              <video id="videoPlayer" controls style="width: 100%; height: 100%; object-fit: contain;"></video>
+              <iframe id="videoIframe" allowfullscreen style="width: 100%; height: 100%; border: none; display: none;"></iframe>
+            </div>
+            <div class="detail-info">
+              <div class="detail-title">${movie.title}</div>
+              <div class="detail-title-en">${movie.titleEn} · ${typeLabel}</div>
+
+              <div class="detail-meta">
+                <div class="rating-badge">⭐ ${movie.rating}</div>
+                <span class="meta-item">📅 ${movie.year}</span>
+                <span class="meta-item">⏱️ ${episodeInfo}</span>
+                ${statusBadge}
+              </div>
+
+              <div class="detail-genres">
+                ${movie.genres.map(g => `<span class="detail-genre-tag">${g}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="max-width: 1200px; margin: 0 auto; padding: 40px;">
+          <!-- 剧情简介 -->
+          <div class="detail-section">
+            <div class="detail-section-title">📖 剧情简介</div>
+            <div class="detail-summary">${movie.summary}</div>
+          </div>
+
+          <!-- AI内容摘要 -->
+          <div class="detail-section">
+            <div class="ai-summary-box">
+              <div class="ai-summary-label">🤖 AI智能摘要</div>
+              <div class="ai-summary-text">${movie.aiSummary}</div>
+            </div>
+          </div>
+
+          <!-- 导演与演员 -->
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 40px; margin-top: 32px;">
+            <div class="detail-section">
+              <div class="detail-section-title">🎬 导演</div>
+              <div class="detail-cast">
+                <span class="cast-item">${movie.director}</span>
+              </div>
+            </div>
+            <div class="detail-section">
+              <div class="detail-section-title">👥 主要演员</div>
+              <div class="detail-cast">
+                ${movie.cast.map(actor => `<span class="cast-item">${actor}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- AI标签 -->
+          <div class="detail-section" style="margin-top: 32px;">
+            <div class="detail-section-title">🏷️ AI智能标签</div>
+            <div class="detail-tags">
+              ${movie.tags.map(tag => `<span class="detail-tag">#${tag}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('detailPage').innerHTML = detailHTML;
+
+      // 视频播放逻辑
+      if (movie.videoUrl && movie.videoUrl.trim() !== '') {
+        document.getElementById('detailPoster').style.display = 'none';
+        document.getElementById('detailVideo').style.display = 'block';
+        const videoPlayer = document.getElementById('videoPlayer');
+        const videoIframe = document.getElementById('videoIframe');
+        if (movie.videoType === 'iframe' || movie.videoUrl.includes('bilibili') || movie.videoUrl.includes('embed')) {
+          videoIframe.src = movie.videoUrl;
+          videoIframe.style.display = 'block';
+          videoPlayer.style.display = 'none';
+        } else {
+          videoPlayer.src = movie.videoUrl;
+          videoPlayer.style.display = 'block';
+          videoIframe.style.display = 'none';
+        }
+      } else {
+        document.getElementById('detailPoster').style.display = 'flex';
+        document.getElementById('detailVideo').style.display = 'none';
+      }
+
+      // 渲染推荐
+      renderRecommendations(movie.id);
+    }
+
+    function renderRecommendations(currentId) {
+      const recommendations = getRecommendations(currentId, 6);
+
+      if (recommendations.length === 0) return;
+
+      document.getElementById('recommendationsSection').style.display = 'block';
+
+      const grid = document.getElementById('recommendationsGrid');
+      const app = new MovieHubApp();
+      grid.innerHTML = recommendations.map(item => app.createMovieCard(item)).join('');
+
+      grid.querySelectorAll('.movie-card').forEach(card => {
+        card.addEventListener('click', () => {
+          window.location.href = `detail.html?id=${card.dataset.id}`;
+        });
+      });
+    }
+
+    // 搜索功能
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const query = e.target.value.trim();
+          if (query.length > 0) {
+            const results = searchMovies(query);
+            if (results.length > 0) {
+              // 跳转到浏览页并显示结果
+              window.location.href = `browse.html?q=${encodeURIComponent(query)}`;
+            }
+          }
+        });
+      }
+
+      renderDetailPage();
+    });
+  </script>
+</body>
+</html>

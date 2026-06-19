@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>浏览影视 - MovieHub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="🎬">
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="logo">🎬</span>
+      <span>MovieHub</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="browse.html" class="active">浏览</a></li>
+      <li><a href="browse.html?type=movie">电影</a></li>
+      <li><a href="browse.html?type=tv">电视剧</a></li>
+      <li><a href="admin.html">⚙️ 管理</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="搜索影视、演员、导演...">
+      </div>
+    </div>
+  </nav>
+
+  <!-- 浏览页面主体 -->
+  <div class="browse-page">
+    <h1 style="font-size: 36px; font-weight: 800; margin-bottom: 8px;">📂 浏览影视资源</h1>
+    <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 32px;">
+      智能分类 · AI推荐 · 海量资源
+    </p>
+
+    <!-- 筛选器 -->
+    <div class="browse-filters">
+      <div class="filter-group">
+        <span class="filter-label">类型</span>
+        <select class="filter-select" id="typeFilter" onchange="applyFilters()">
+          <option value="all">全部</option>
+          <option value="movie">电影</option>
+          <option value="tv">电视剧</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">分类</span>
+        <select class="filter-select" id="genreFilter" onchange="applyFilters()">
+          <option value="all">全部分类</option>
+          <option value="科幻">科幻</option>
+          <option value="悬疑">悬疑</option>
+          <option value="剧情">剧情</option>
+          <option value="动画">动画</option>
+          <option value="喜剧">喜剧</option>
+          <option value="动作">动作</option>
+          <option value="犯罪">犯罪</option>
+          <option value="治愈">治愈</option>
+          <option value="历史">历史</option>
+          <option value="励志">励志</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">排序</span>
+        <select class="filter-select" id="sortFilter" onchange="applyFilters()">
+          <option value="rating">评分最高</option>
+          <option value="year">最新上线</option>
+          <option value="title">名称A-Z</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 结果信息 -->
+    <div class="browse-results-info" id="resultsInfo">
+      正在加载...
+    </div>
+
+    <!-- 影视网格 -->
+    <div class="movie-grid" id="movieGrid"></div>
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <div class="footer-brand">🎬 MovieHub</div>
+        <p class="footer-desc">
+          MovieHub 是一个智能化的影视资源分发平台，致力于为用户提供优质的影视内容与个性化的推荐服务。
+        </p>
+      </div>
+      <div>
+        <h4 class="footer-title">快速导航</h4>
+        <ul class="footer-links">
+          <li><a href="index.html">首页</a></li>
+          <li><a href="browse.html">浏览全部</a></li>
+          <li><a href="browse.html?type=movie">电影频道</a></li>
+          <li><a href="browse.html?type=tv">电视剧频道</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-title">热门分类</h4>
+        <ul class="footer-links">
+          <li><a href="browse.html?genre=科幻">科幻影视</a></li>
+          <li><a href="browse.html?genre=悬疑">悬疑推理</a></li>
+          <li><a href="browse.html?genre=动画">动画佳作</a></li>
+          <li><a href="browse.html?genre=剧情">剧情精选</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-title">特色功能</h4>
+        <ul class="footer-links">
+          <li><a href="#">AI智能推荐</a></li>
+          <li><a href="#">自动分类系统</a></li>
+          <li><a href="#">内容摘要生成</a></li>
+          <li><a href="#">个性化收藏</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2023 MovieHub. All rights reserved.</span>
+      <span>智能影视 · 用心推荐</span>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // 浏览页面逻辑
+    let browseData = getAllMovies();
+
+    function applyFilters() {
+      const typeFilter = document.getElementById('typeFilter').value;
+      const genreFilter = document.getElementById('genreFilter').value;
+      const sortFilter = document.getElementById('sortFilter').value;
+
+      // 应用筛选
+      let filtered = getAllMovies();
+
+      if (typeFilter !== 'all') {
+        filtered = filtered.filter(item => item.type === typeFilter);
+      }
+
+      if (genreFilter !== 'all') {
+        filtered = filtered.filter(item => item.genres.includes(genreFilter));
+      }
+
+      // 应用排序
+      switch(sortFilter) {
+        case 'rating':
+          filtered.sort((a, b) => b.rating - a.rating);
+          break;
+        case 'year':
+          filtered.sort((a, b) => b.year - a.year);
+          break;
+        case 'title':
+          filtered.sort((a, b) => a.title.localeCompare(b.title, 'zh'));
+          break;
+      }
+
+      browseData = filtered;
+      renderBrowseGrid();
+    }
+
+    function renderBrowseGrid() {
+      const grid = document.getElementById('movieGrid');
+      const info = document.getElementById('resultsInfo');
+
+      if (!grid) return;
+
+      info.textContent = `共找到 ${browseData.length} 部作品`;
+
+      if (browseData.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column: 1/-1;">
+            <div class="icon">🎬</div>
+            <p>该分类下暂无内容</p>
+          </div>
+        `;
+        return;
+      }
+
+      const app = window.app || new MovieHubApp();
+      grid.innerHTML = browseData.map(item => app.createMovieCard(item)).join('');
+
+      grid.querySelectorAll('.movie-card').forEach(card => {
+        card.addEventListener('click', () => {
+          window.location.href = `detail.html?id=${card.dataset.id}`;
+        });
+      });
+    }
+
+    // 页面加载
+    document.addEventListener('DOMContentLoaded', () => {
+      window.app = new MovieHubApp();
+
+      // 解析URL参数
+      const urlParams = new URLSearchParams(window.location.search);
+      const typeParam = urlParams.get('type');
+      const genreParam = urlParams.get('genre');
+      const sortParam = urlParams.get('sort');
+
+      if (typeParam) {
+        document.getElementById('typeFilter').value = typeParam;
+      }
+      if (genreParam) {
+        document.getElementById('genreFilter').value = genreParam;
+      }
+      if (sortParam) {
+        document.getElementById('sortFilter').value = sortParam;
+      }
+
+      // 应用筛选
+      applyFilters();
+    });
+  </script>
+</body>
+</html>
