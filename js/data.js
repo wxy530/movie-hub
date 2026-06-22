@@ -501,8 +501,8 @@ const movieDatabase = [
     tags: ["韩剧", "教育题材", "社会批判", "现实主义", "金武烈"],
     episodes: 10,
     status: "已完结",
-    videoUrl: "",
-    videoType: "url"
+    videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1YgJs63E2r&autoplay=0",
+    videoType: "iframe"
   }
 ];
 
