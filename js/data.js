@@ -481,6 +481,28 @@ const movieDatabase = [
     status: "已完结",
     videoUrl: "//player.bilibili.com/player.html?isOutside=true&aid=116389352508242&bvid=BV1CjDDBGEqf&cid=37435868317&p=1",
     videoType: "iframe"
+  },
+  {
+    id: 1003,
+    title: "铁拳教育",
+    titleEn: "Iron Fist Education",
+    type: "tv",
+    year: 2026,
+    genres: ["剧情", "教育"],
+    rating: 8.2,
+    duration: "60分钟/集",
+    director: "洪忠灿",
+    cast: ["金武烈", "李星民", "秦基周", "表志勋", "何英", "李升规", "玉真旭", "李秦焕", "金钟秀"],
+    poster: "✊",
+    backdrop: "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)",
+    posterBg: "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)",
+    summary: "为了重新树立起崩塌的教师权威，教育部新建教师权威保护局。",
+    aiSummary: "《铁拳教育》聚焦当代教育困境，以「教师权威保护局」为切入点，深刻揭示师生关系的裂变与重建。导演洪忠灿以犀利的镜头语言呈现教育体制的痛点，金武烈饰演的核心角色在压抑与爆发之间游走，展现出极强的表演张力。该剧以现实主义笔触探讨教育者尊严、家长干预、制度改革等社会议题，引发广泛共鸣，是2026年韩剧中难得的社会批判力作。",
+    tags: ["韩剧", "教育题材", "社会批判", "现实主义", "金武烈"],
+    episodes: 10,
+    status: "已完结",
+    videoUrl: "",
+    videoType: "url"
   }
 ];
 
