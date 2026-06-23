@@ -657,6 +657,28 @@ const movieDatabase = [
     status: "已完结",
     videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1NJ411G7ZA&autoplay=0",
     videoType: "iframe"
+  },
+  {
+    id: 1011,
+    title: "霸王别姬",
+    titleEn: "Farewell My Concubine",
+    type: "movie",
+    year: 1993,
+    genres: ["剧情", "历史"],
+    rating: 9.8,
+    duration: "171分钟",
+    director: "陈凯歌",
+    cast: ["张国荣", "张丰毅", "巩俐", "葛优", "英达", "蒋雯丽"],
+    poster: "🎭",
+    backdrop: "linear-gradient(135deg, #c31432 0%, #240b36 100%)",
+    posterBg: "linear-gradient(135deg, #c31432 0%, #240b36 100%)",
+    summary: "段小楼与程蝶衣自小在戏班学艺，一个演生一个饰旦，合演的《霸王别姬》誉满京城。然而两人对戏与人生的理解截然不同——段小楼深知戏非人生，程蝶衣却人戏不分，一段跨越半个世纪的悲欢离合就此展开。",
+    aiSummary: "华语电影的巅峰之作，也是迄今为止唯一获得戛纳金棕榈奖的中国电影。陈凯歌以京剧《霸王别姬》为戏中戏，将程蝶衣、段小楼、菊仙三人的爱恨纠葛嵌入中国近半个世纪的历史变迁之中。张国荣奉献了堪称不朽的表演——他饰演的程蝶衣不仅是角色，更是一个时代悲剧的化身。从清末到文革，从戏台到人生，影片借「不疯魔不成活」的程蝶衣之口，道尽了艺术与信仰在历史洪流中的无力与坚持。B站评分9.8、1140万播放，证明了这部1993年的经典至今仍是不可逾越的高峰。",
+    tags: ["华语经典", "陈凯歌", "张国荣", "金棕榈奖", "京剧", "时代史诗", "必看神作"],
+    episodes: null,
+    status: "已完结",
+    videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1uE411775S&autoplay=0",
+    videoType: "iframe"
   }
 ];
 
