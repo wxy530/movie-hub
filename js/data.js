@@ -591,6 +591,28 @@ const movieDatabase = [
     status: "已完结",
     videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1fkL16NE4h&autoplay=0",
     videoType: "iframe"
+  },
+  {
+    id: 1008,
+    title: "熊出没·年年有熊",
+    titleEn: "Boonie Bears: The Hidden Protector",
+    type: "movie",
+    year: 2026,
+    genres: ["动画", "喜剧", "奇幻"],
+    rating: 8.6,
+    duration: "118分钟",
+    director: "林汇达",
+    cast: ["张伟", "张秉君", "谭笑", "王兵兵", "聂吉轩"],
+    poster: "🐻",
+    backdrop: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+    posterBg: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+    summary: "熊大曾是森林里的「老大哥」，直到一个不速之客到来，将神力传给了熊强，熊大变成了三人组合内能力最弱者。为了改变现状，他步入了反派陷阱，引发了一场毁天灭地的危机……",
+    aiSummary: "熊出没系列第12部大电影，2026春节档上映，累计票房突破10.67亿。导演林汇达继续为这个国民IP注入新活力——影片以「能力转移」为创意核心，让曾经的森林领袖熊大首次沦为最弱者，通过身份反转带出关于自我认同与友情的深刻主题。画质再度升级，奇幻元素与动作场面相得益彰，适合全家观看。AI分析指出，熊出没系列之所以年年春节档屹立不倒，在于它能在合家欢的外壳下持续探索新主题，从环保、亲情到自我价值，每一部都有独立的表达核心。《年年有熊》B站评分8.6，延续了系列一贯的高品质。",
+    tags: ["熊出没", "国产动画", "合家欢", "春节档", "奇幻", "林汇达"],
+    episodes: null,
+    status: "已完结",
+    videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1CjVs61Ez9&autoplay=0",
+    videoType: "iframe"
   }
 ];
 
