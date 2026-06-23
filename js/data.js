@@ -503,6 +503,28 @@ const movieDatabase = [
     status: "已完结",
     videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1YgJs63E2r&autoplay=0",
     videoType: "iframe"
+  },
+  {
+    id: 1004,
+    title: "(G)I-DLE - Crow MV",
+    titleEn: "(G)I-DLE 'Crow' Official Music Video",
+    type: "movie",
+    year: 2026,
+    genres: ["音乐"],
+    rating: 9.0,
+    duration: "4分钟",
+    director: "CUBE娱乐",
+    cast: ["田小娟", "宋雨琦", "闵熙珍", "金优琦", "李瑞淵"],
+    poster: "🪶",
+    backdrop: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
+    posterBg: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
+    summary: "(G)I-DLE 第九张迷你专辑《We made》先行曲《Crow》官方MV。以哥特暗黑美学呈现成员化身乌鸦意象，传达不被厄运打倒、在逆境中倔强生存并展翅高飞的信念。",
+    aiSummary: "《Crow》延续了 (G)I-DLE 一贯的黑暗女王美学，以乌鸦作为核心意象，构建出反抗命运、重生逆袭的视觉叙事。哥特风格的造型设计与高饱和度的光影运用形成强烈视觉冲击，田小娟的创作在歌词层面将女性力量主题推向新高度。MV在YouTube上线首日即登顶韩国非英语单曲榜，展现出该组合在视听艺术上的持续进化。",
+    tags: ["(G)I-DLE", "KPOP", "韩流", "哥特美学", "女团", "新曲"],
+    episodes: null,
+    status: "已完结",
+    videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1DvJA6yEf7&autoplay=0",
+    videoType: "iframe"
   }
 ];
 
