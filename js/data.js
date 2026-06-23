@@ -635,6 +635,28 @@ const movieDatabase = [
     status: "已完结",
     videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1835UzgEGw&autoplay=0",
     videoType: "iframe"
+  },
+  {
+    id: 1010,
+    title: "肖申克的救赎",
+    titleEn: "The Shawshank Redemption",
+    type: "movie",
+    year: 1994,
+    genres: ["剧情", "犯罪"],
+    rating: 9.9,
+    duration: "142分钟",
+    director: "弗兰克·德拉邦特",
+    cast: ["蒂姆·罗宾斯", "摩根·弗里曼", "鲍勃·冈顿", "威廉姆·赛德勒", "克兰西·布朗"],
+    poster: "🕊️",
+    backdrop: "linear-gradient(135deg, #485563 0%, #29323c 100%)",
+    posterBg: "linear-gradient(135deg, #485563 0%, #29323c 100%)",
+    summary: "银行家安迪因被误判杀害妻子及其情夫而入狱。在肖申克监狱中，他凭借智慧与坚韧，在绝望中寻找希望，用二十年凿出一条通往自由的路。改编自斯蒂芬·金原著小说。",
+    aiSummary: "IMDb与豆瓣双料影史第一的传奇之作，弗兰克·德拉邦特将斯蒂芬·金的短篇小说升华为一部关于希望与自由的永恒寓言。蒂姆·罗宾斯饰演的安迪和摩根·弗里曼饰演的瑞德之间的友谊，是影史上最动人的银幕关系之一。影片以监狱为舞台，却讲述了最辽阔的自由——内心的自由。B站4940万播放、9.9分的成绩证明了这部1994年的经典跨越三十年依然能打动新一代观众。无论何时观看，那句「有些鸟是关不住的」都依然让人热血沸腾。",
+    tags: ["影史经典", "斯蒂芬·金", "希望", "自由", "必看神作", "IMDb第一"],
+    episodes: null,
+    status: "已完结",
+    videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1NJ411G7ZA&autoplay=0",
+    videoType: "iframe"
   }
 ];
 
