@@ -525,6 +525,28 @@ const movieDatabase = [
     status: "已完结",
     videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1DvJA6yEf7&autoplay=0",
     videoType: "iframe"
+  },
+  {
+    id: 1005,
+    title: "ITZY - Motto Dance Video (Rooftop Ver.)",
+    titleEn: "ITZY 'Motto' Dance Video (Rooftop Ver.)",
+    type: "movie",
+    year: 2026,
+    genres: ["音乐"],
+    rating: 9.0,
+    duration: "4分钟",
+    director: "JYP娱乐",
+    cast: ["黄礼志", "崔智秀", "申留真", "李彩领", "申有娜"],
+    poster: "💃",
+    backdrop: "linear-gradient(135deg, #f5576c 0%, #ff9a9e 100%)",
+    posterBg: "linear-gradient(135deg, #f5576c 0%, #ff9a9e 100%)",
+    summary: "ITZY「Motto」天台版舞蹈视频。五位成员在天台之上以极具感染力的刀群舞演绎青春热血与自由态度，展现五代女团顶级舞蹈实力。",
+    aiSummary: "ITZY 的「Motto」Rooftop Ver. 以天台作为舞台背景，将都市感与青春活力完美融合。编舞延续了 ITZY 一贯的高强度、高整齐度的风格，开合之间展现出令人惊叹的团队配合。黄礼志的领舞张力、申留真的力量感、李彩领的线条美各具特色。天台的自然光线与开阔视野为舞蹈增添了自由不羁的氛围，是舞台感与MV质感兼具的作品。",
+    tags: ["ITZY", "KPOP", "韩流", "舞蹈视频", "五代女团"],
+    episodes: null,
+    status: "已完结",
+    videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1HpGE6WEMq&autoplay=0",
+    videoType: "iframe"
   }
 ];
 
