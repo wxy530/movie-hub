@@ -569,6 +569,28 @@ const movieDatabase = [
     status: "已完结",
     videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1fX96B2ETT&autoplay=0",
     videoType: "iframe"
+  },
+  {
+    id: 1007,
+    title: "惊蛰无声",
+    titleEn: "Silent Awakening",
+    type: "movie",
+    year: 2026,
+    genres: ["悬疑", "犯罪", "谍战"],
+    rating: 8.0,
+    duration: "120分钟",
+    director: "张艺谋",
+    cast: ["易烊千玺", "朱一龙", "宋佳", "雷佳音", "杨幂", "张译", "刘诗诗", "刘耀文", "段奕宏"],
+    poster: "🕵️",
+    backdrop: "linear-gradient(135deg, #1c1c1c 0%, #434343 50%, #000000 100%)",
+    posterBg: "linear-gradient(135deg, #1c1c1c 0%, #434343 50%, #000000 100%)",
+    summary: "我国最新战机的涉密信息外泄，国家安全面临威胁。国安小组迅速行动抓捕间谍，在信任与背叛的漩涡中，一场惊心动魄且无声的较量悄然上演……",
+    aiSummary: "张艺谋首次执导谍战题材影片，由国家安全部指导创作，集结易烊千玺、朱一龙、宋佳等顶级演员阵容。影片以国产最新战机涉密信息外泄为切入点，将国安干警与境外间谍组织的博弈搬上银幕。张艺谋标志性的视觉美学与谍战类型的紧张氛围相得益彰，在冷峻的现实主义基调中注入人性挣扎——当调查矛头指向国安内部时，谁是卧底、谁是忠臣的悬念层层递进。AI分析认为，该片在国产谍战电影中实现了类型升级，既有《悬崖之上》的冷峻质感，又有新时代国安题材的创新突破，是一部兼具商业观赏性与主旋律表达的张氏大片。",
+    tags: ["张艺谋", "谍战", "国安", "易烊千玺", "朱一龙", "国产大片", "春节档"],
+    episodes: null,
+    status: "已完结",
+    videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1fkL16NE4h&autoplay=0",
+    videoType: "iframe"
   }
 ];
 
