@@ -613,6 +613,28 @@ const movieDatabase = [
     status: "已完结",
     videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1CjVs61Ez9&autoplay=0",
     videoType: "iframe"
+  },
+  {
+    id: 1009,
+    title: "想飞的女孩",
+    titleEn: "Girls on Wire",
+    type: "movie",
+    year: 2025,
+    genres: ["剧情"],
+    rating: 7.5,
+    duration: "108分钟",
+    director: "文晏",
+    cast: ["刘浩存", "文淇", "张宥浩", "刘奕铁", "彭静", "杨皓宇", "周游", "耿乐"],
+    poster: "🕊️",
+    backdrop: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    posterBg: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    summary: "一对表姐妹二十余年的成长与救赎。拼死逃离毒窟的田恬走投无路，前去寻找已决裂五年的表姐方笛。而此时伤痕累累的方笛并没有做好接纳表妹的准备……命运的齿轮却不得不重新咬合。",
+    aiSummary: "文晏继《嘉年华》后再度执导的女性题材力作，入围柏林国际电影节主竞赛单元。刘浩存与文淇两位新生代实力派演员饰演一对命运交织的表姐妹，在毒品、暴力与贫困的阴影下艰难求生。影片以极具克制的镜头语言呈现女性在社会夹缝中的困境与反抗，不煽情却直击人心。AI分析认为，文晏延续了她一贯的社会观察视角，但这次将叙事重心从单一事件扩展为跨越二十余年的时间跨度，通过两姐妹的离合悲欢折射出底层女性的生存图景。影片在柏林首映后获得国际影评人广泛关注，被认为是中国女性电影的重要作品。",
+    tags: ["文晏", "女性题材", "柏林电影节", "刘浩存", "文淇", "文艺片"],
+    episodes: null,
+    status: "已完结",
+    videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1835UzgEGw&autoplay=0",
+    videoType: "iframe"
   }
 ];
 
