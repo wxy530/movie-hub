@@ -679,6 +679,28 @@ const movieDatabase = [
     status: "已完结",
     videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1uE411775S&autoplay=0",
     videoType: "iframe"
+  },
+  {
+    id: 1012,
+    title: "三傻大闹宝莱坞",
+    titleEn: "3 Idiots",
+    type: "movie",
+    year: 2009,
+    genres: ["喜剧", "剧情"],
+    rating: 9.2,
+    duration: "170分钟",
+    director: "拉库马·希拉尼",
+    cast: ["阿米尔·汗", "马德哈万", "沙尔曼·乔什", "卡琳娜·卡普"],
+    poster: "🤖",
+    backdrop: "linear-gradient(135deg, #00b4db 0%, #0083b0 100%)",
+    posterBg: "linear-gradient(135deg, #00b4db 0%, #0083b0 100%)",
+    summary: "法罕、拉加与兰彻在印度著名学府帝国工业大学结下了深厚友谊。兰彻特立独行，公开质疑僵化的教育体制，鼓励朋友们追随内心而非盲从社会期待。十年后，两个好友踏上寻找失联兰彻的旅程，重温那段改变他们一生的岁月。",
+    aiSummary: "印度电影走向世界的里程碑之作，阿米尔·汗凭借此片成为全球观众心中的「印度良心」。拉库马·希拉尼以喜剧包裹严肃的社会批判——僵化的应试教育、家庭期望的重压、种姓制度的阴影，都被包裹在欢笑与泪水之中。影片以插叙手法穿梭于校园青春与十年后的寻人之旅之间，节奏精准、笑料密集却从不忘情感内核。「All is well」这句简单的口头禅，成为无数观众对抗焦虑的精神支柱。AI分析认为，该片之所以能在全球范围内引发共鸣，在于它触及了一个普世命题：在标准化的人生道路上，如何保有自己的独特性。至今仍在豆瓣保持9.2高分，是真正的喜剧经典。",
+    tags: ["印度电影", "阿米尔·汗", "教育反思", "喜剧经典", "豆瓣Top250", "励志"],
+    episodes: null,
+    status: "已完结",
+    videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1keKHzcE7y&autoplay=0",
+    videoType: "iframe"
   }
 ];
 
