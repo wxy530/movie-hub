@@ -547,6 +547,28 @@ const movieDatabase = [
     status: "已完结",
     videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1HpGE6WEMq&autoplay=0",
     videoType: "iframe"
+  },
+  {
+    id: 1006,
+    title: "飞驰人生3",
+    titleEn: "Pegasus 3",
+    type: "movie",
+    year: 2026,
+    genres: ["喜剧", "剧情"],
+    rating: 9.6,
+    duration: "128分钟",
+    director: "韩寒",
+    cast: ["沈腾", "尹正", "黄景瑜", "张本煜", "魏翔", "沙溢", "范丞丞", "孙艺洲", "段奕宏", "张新成", "胡先煦", "李治廷"],
+    poster: "🏎️",
+    backdrop: "linear-gradient(135deg, #f12711 0%, #f5af19 100%)",
+    posterBg: "linear-gradient(135deg, #f12711 0%, #f5af19 100%)",
+    summary: "带着「巴音布鲁克之王」的荣光，张驰（沈腾 饰）再一次踏上飞驰之路，不仅要赢下比赛，更要实现比赛之外的意义……",
+    aiSummary: "韩寒执导的「飞驰人生」系列第三部，2026年春节档上映。沈腾再度饰演赛车手张驰，原班人马悉数回归并新增张新成、胡先煦等实力演员。影片延续前作的赛车热血与喜剧风格，在巴音布鲁克之外开辟全新赛道，将个人梦想与团队精神提升到新高度。韩寒的导演功力更加成熟，赛场戏份的调度和拍摄有了质的飞跃，真实赛车场面与CG特效的融合更加自然。AI分析认为，该片在国产赛车电影这一稀缺类型中继续深耕，9.6分的B站评分证明了观众对该系列的高度认可，是一部笑中带泪、燃点十足的合家欢春节档佳作。",
+    tags: ["韩寒", "沈腾", "喜剧", "赛车", "春节档", "国产电影"],
+    episodes: null,
+    status: "已完结",
+    videoUrl: "//player.bilibili.com/player.html?isOutside=true&bvid=BV1fX96B2ETT&autoplay=0",
+    videoType: "iframe"
   }
 ];
 
